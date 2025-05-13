@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Money</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .amounts-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .amount-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .amount-box {
+            width: 120px;
+            height: 80px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            margin: 0 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .lock-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Apply dark mode preference on page load
+        function applyUserDarkModePreference() {
+            const currentUserPhone = localStorage.getItem('currentUserPhone');
+            if (currentUserPhone) {
+                const darkModeEnabled = localStorage.getItem(`user_data_${currentUserPhone}_darkModeEnabled`) === 'true';
+                if (darkModeEnabled) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
+        applyUserDarkModePreference(); // Apply immediately
+    </script>
+    <a href="balance.html" style="position: absolute; top: 10px; left: 10px; font-size: 1.5em; color: #000; text-decoration: none;">&larr;</a>
+    <div class="header">Account Recharge</div>
+    <div class="amounts-container">
+        <div class="amount-row">
+            <div class="amount-box" data-amount="2000">₦2000</div>
+            <div class="amount-box" data-amount="3000">₦3000</div>
+        </div>
+        <div class="amount-row">
+            <div class="amount-box" data-amount="5000">₦5000</div>
+            <div class="amount-box" data-amount="10000">₦10000</div>
+        </div>
+        <p style="text-align: center; margin-top: 20px; color: #777; font-size: 0.9em;">
+          <a href="#" id="rechargeInfoLink" style="color: inherit; text-decoration: none;">How the recharge works</a>
+        </p>
+    </div>
+
+    <div id="premium-message" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0,0,0,0.8); color: white; padding: 20px; border-radius: 10px; text-align: center; display: none;">
+        This service is only available to Palmpay Premium membership, you can do this in your Palmpay account by following the necessary procedure.
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const amountBoxes = document.querySelectorAll('.amount-box');
+            const premiumMessage = document.getElementById('premium-message');
+
+            amountBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    const amount = this.dataset.amount;
+
+                    if (amount === "5000" || amount === "10000") {
+                        // Show premium message
+                        premiumMessage.style.display = 'block';
+                        setTimeout(() => {
+                            premiumMessage.style.display = 'none';
+                        }, 5000);
+                    } else {
+                        localStorage.setItem('selectedAmount', amount);
+                        window.location.href = 'enter_name.html';
+                    }
+                });
+            });
+
+            const rechargeInfoLink = document.getElementById('rechargeInfoLink');
+            rechargeInfoLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = 'support_info.html';
+            });
+        });
+    </script>
+</body>
+</html>
